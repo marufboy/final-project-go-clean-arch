@@ -26,8 +26,8 @@ func NewUserHandler(r *gin.Engine, usecase domain.UserUseCase, db *gorm.DB) {
 	router.POST("/login", handler.handleLogin)
 	{
 		router.Use(middlewares.AuthorizeJWT())
-		router.PUT("/:userId", handler.handleUpdateUser)
-		router.DELETE("/:userId", handler.handleDeleteUser)
+		router.PUT("/:userId", middlewares.AuthorizationUser(db), handler.handleUpdateUser)
+		router.DELETE("/:userId", middlewares.AuthorizationUser(db), handler.handleDeleteUser)
 	}
 }
 
