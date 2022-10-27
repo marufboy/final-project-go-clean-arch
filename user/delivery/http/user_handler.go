@@ -50,6 +50,13 @@ func (h UserHandler) handleRegister(ctx *gin.Context) {
 	}
 
 	//TODO: usecase register
+	res := h.userUseCase.UserRegisterUC(request)
+	if res.Error {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, res)
 }
 func (h UserHandler) handleLogin(ctx *gin.Context) {
 	var request baserequest.LoginRequest
@@ -69,7 +76,13 @@ func (h UserHandler) handleLogin(ctx *gin.Context) {
 		return
 	}
 
-	//TODO: usecase login
+	res := h.userUseCase.UserLoginUC(request)
+	if res.Error {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, res)
 }
 func (h UserHandler) handleUpdateUser(ctx *gin.Context) {
 	var request baserequest.UpdateRequestUser
@@ -89,6 +102,21 @@ func (h UserHandler) handleUpdateUser(ctx *gin.Context) {
 		return
 	}
 
-	//TODO: usecase update user
+	res := h.userUseCase.UpdateUserUC(request)
+	if res.Error {
+		ctx.AbortWithStatusJSON(http.StatusBadRequest, res)
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, res)
 }
-func (h UserHandler) handleDeleteUser(ctx *gin.Context) {}
+func (h UserHandler) handleDeleteUser(ctx *gin.Context) {
+	id := ctx.Param("userId")
+	res := h.userUseCase.DeleteUserUC(id)
+	if res.Error {
+		ctx.AbortWithStatusJSON(http.StatusNotFound, res)
+		return
+	}
+
+	ctx.JSON(http.StatusOK, res)
+}

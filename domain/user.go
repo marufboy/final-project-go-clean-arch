@@ -2,6 +2,7 @@ package domain
 
 import (
 	baserequest "final-project-go-clean-arch/common/base_request"
+	"final-project-go-clean-arch/helpers"
 	"time"
 )
 
@@ -16,15 +17,16 @@ type User struct {
 }
 
 type UserUseCase interface {
-	UserRegisterUC(request baserequest.RegisterRequest) (*User, error)
-	UserLoginUC(request baserequest.LoginRequest) (string, error)
-	UpdateUserUC(request baserequest.UpdateRequestUser) (*User, error)
-	DeleteUserUC(id string) (string, error)
+	UserRegisterUC(request baserequest.RegisterRequest) helpers.Response
+	UserLoginUC(request baserequest.LoginRequest) helpers.Response
+	UpdateUserUC(request baserequest.UpdateRequestUser) helpers.Response
+	DeleteUserUC(id string) helpers.Response
 }
 
 type UserRepository interface {
-	Store(user User) (*User, error)
-	UpdateUser(user User) (*User, error)
+	Store(user *User) (*User, error)
+	UpdateUser(user *User) (*User, error)
+	DeleteUser(id string) error
 	FindByEmail(email string) (*User, error)
 	FindByUsername(username string) (*User, error)
 }
