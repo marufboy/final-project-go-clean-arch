@@ -90,7 +90,7 @@ func (h PhotoHandler) UpdatePhoto(ctx *gin.Context) {
 	ctx.JSON(http.StatusOK, res)
 }
 func (h PhotoHandler) DeletePhoto(ctx *gin.Context) {
-	id := ctx.Param("userId")
+	id := ctx.Param("photoId")
 	res := h.photoUseCase.DeletePhotoUC(id)
 	if res.Error {
 		ctx.AbortWithStatusJSON(http.StatusNotFound, res)

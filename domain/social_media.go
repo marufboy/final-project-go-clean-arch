@@ -1,6 +1,10 @@
 package domain
 
-import "time"
+import (
+	baserequest "final-project-go-clean-arch/common/base_request"
+	"final-project-go-clean-arch/helpers"
+	"time"
+)
 
 type SocialMedia struct {
 	ID             uint      `json:"id" gorm:"primarykey"`
@@ -11,5 +15,16 @@ type SocialMedia struct {
 	UpdatedAt      time.Time `json:"updated_at"`
 }
 
-type SocialMediaUseCase interface{}
-type SocialMediaRepository interface{}
+type SocialMediaUseCase interface {
+	CreateSocialMediaUC(request baserequest.CreateRequestSocialMedia) helpers.Response
+	UpdateSocialMediaUC(request baserequest.UpdateRequestComment) helpers.Response
+	DeleteSocialMediaUC(id string) helpers.Response
+	GetSocialMediaUC() helpers.Response
+}
+type SocialMediaRepository interface {
+	Store(socialMedia *SocialMedia) (*SocialMedia, error)
+	UpdateSocialMedia(socialMedia *SocialMedia) (*SocialMedia, error)
+	DeleteSocialMedia(id string) error
+	FindById(id string) (*SocialMedia, error)
+	FindAll() ([]*SocialMedia, error)
+}
